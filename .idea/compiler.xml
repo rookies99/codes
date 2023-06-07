@@ -6,14 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="news" />
         <module name="codes" />
         <module name="ems_vue" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hotNews" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ems_vue" options="-parameters" />
+      <module name="hotNews" options="-parameters" />
+      <module name="news" options="-parameters" />
     </option>
   </component>
 </project>
