@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>热点事件排行榜</title>
+    <link rel="stylesheet" href="css/newsList.css">
+</head>
+<body>
+  <div id="app">
+      <h1>热点事件排行榜</h1>
+      关键词：<input type="text" id="search-input"  placeholder="关键词搜索" v-model="title">
+      <button @click="searchNews">查询</button>
+      <table id="events-table">
+          <thead>
+          <tr>
+              <th>关键词</th>
+              <th>搜索指数</th>
+              <th>创建时间</th>
+          </tr>
+          </thead>
+          <tr v-for="news in hotNews" :key="news.id">
+              <td @click="goToDetail(news.id)"><a href="#">{{news.title}}</a></td>
+              <td>{{news.numberOfSearches}}</td>
+              <td>{{news.created_at}}</td>
+          </tr>
+      </table>
+      <div id="pagination">
+          <button onclick="goToFirstPage()">首页</button>
+          <button onclick="goToPreviousPage()">上一页</button>
+          <span id="current-page">1</span> / <span id="total-pages">2</span>
+          <button onclick="goToNextPage()">下一页</button>
+          <button onclick="goToLastPage()">末页</button>
+      </div>
+  </div>
+
+</body>
+</html>
+<script src="js/vue.global.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: "",
+                hotNews: [],
+            };
+        },
+        methods: {
+            searchNews() {
+                axios.get("http://localhost:8080/news/hotNews/search", {
+                    params: {
+                        title: this.title
+                    }
+                }).then((res) => {
+                    this.hotNews = res.data;
+                });
+            },
+            goToDetail(id) {
+                window.location.href = "http://localhost:8080/news/newsDetails.html?id=" + id;
+            }
+        },
+        created() {
+            // 查询所有信息
+            axios.get("http://localhost:8080/news/hotNews/getAll").then((res) => {
+                this.hotNews = res.data;
+            });
+        },
+    });
+
+    app.mount('#app');
+</script>
+
