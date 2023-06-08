@@ -25,11 +25,11 @@
           </tr>
       </table>
       <div id="pagination">
-          <button onclick="goToFirstPage()">首页</button>
-          <button onclick="goToPreviousPage()">上一页</button>
-          <span id="current-page">1</span> / <span id="total-pages">2</span>
-          <button onclick="goToNextPage()">下一页</button>
-          <button onclick="goToLastPage()">末页</button>
+          <button @click="goToFirstPage()" :disabled="currentPage === 1">首页</button>
+          <button @click="goToPreviousPage()" :disabled="currentPage === 1">上一页</button>
+          <span id="current-page">{{ currentPage }}</span> / <span id="total-pages">{{ totalPages }}</span>
+          <button @click="goToNextPage()" :disabled="currentPage === totalPages">下一页</button>
+          <button @click="goToLastPage()" :disabled="currentPage === totalPages">末页</button>
       </div>
   </div>
 
@@ -42,15 +42,27 @@
     const app = Vue.createApp({
         data() {
             return {
-                title: "",
+                title: '',
                 hotNews: [],
+                currentPage: 1,
+                totalPages: 1,
+                pageSize: 3,
             };
         },
         methods: {
             searchNews() {
+                axios.get("http://localhost:8080/news/hotNews/getCount",{
+                    params: {title:this.title}
+                }).then((res)=>{
+                    console.log("记录数：",res.data)
+                    this.totalPages = (res.data+this.pageSize-1)/this.pageSize
+                    console.log(this.totalPages)
+                })
                 axios.get("http://localhost:8080/news/hotNews/search", {
                     params: {
-                        title: this.title
+                        title: this.title,
+                        offset: this.currentPage,
+                        pageSize: this.pageSize,
                     }
                 }).then((res) => {
                     this.hotNews = res.data;
@@ -58,13 +70,34 @@
             },
             goToDetail(id) {
                 window.location.href = "http://localhost:8080/news/newsDetails.html?id=" + id;
-            }
+            },
+            goToFirstPage() {
+                if (this.currentPage !== 1) {
+                    this.currentPage = 1;
+                    this.searchNews();
+                }
+            },
+            goToPreviousPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.searchNews();
+                }
+            },
+            goToNextPage() {
+                if (this.currentPage < this.totalPages) {
+                    this.currentPage++;
+                    this.searchNews();
+                }
+            },
+            goToLastPage() {
+                if (this.currentPage !== this.totalPages) {
+                    this.currentPage = this.totalPages;
+                    this.searchNews();
+                }
+            },
         },
         created() {
-            // 查询所有信息
-            axios.get("http://localhost:8080/news/hotNews/getAll").then((res) => {
-                this.hotNews = res.data;
-            });
+            this.searchNews();
         },
     });
 

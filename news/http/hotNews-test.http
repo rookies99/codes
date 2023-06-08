@@ -1,4 +1,18 @@
-GET http://localhost:8080/news/hotNews/getHotNewsAndCommentById?id=2
+GET http://localhost:8080/news/hotNews/getCount?title=
+Accept: application/json
+
+###
+###
+PUT http://localhost:8080/news/comment/addComment
+Content-Type: application/json
+
+{
+    "hot_news_id": 1,
+    "content": "这是第二条评论"
+}
+
+###
+GET http://localhost:8080/news/hotNews/getHotNewsAndCommentById?id=1
 Accept: application/json
 
 ###

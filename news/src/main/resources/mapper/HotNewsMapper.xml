@@ -5,23 +5,15 @@
 <mapper namespace="com.example.Dao.HotNewsDao">
 
 
-    <select id="getAll" resultType="com.example.entity.HotNews">
-        select id,title,article,numberOfSearches,created_at,updated_at from hot_news
-    </select>
+<!--    <select id="getAll" resultType="com.example.entity.HotNews">-->
+<!--        select id,title,article,numberOfSearches,created_at,updated_at from hot_news-->
+<!--    </select>-->
     <select id="getHotNewsByTitle" resultType="com.example.entity.HotNews">
         select id,title,article,numberOfSearches,created_at,updated_at from hot_news
-where title like CONCAT('%',#{title},'%')
+        where title like CONCAT('%',#{title},'%')
+            LIMIT #{pageSize} OFFSET ${(offset-1)*pageSize}
     </select>
-    <select id="getHotNewsAndCommentById" resultMap="HotNewsResultMap">
-        SELECT
-            *
-        FROM
-            hot_news t1
-                inner JOIN
-            comment t2 ON t1.id = t2.hot_news_id
-        WHERE
-            t1.id = #{id}
-    </select>
+
     <resultMap id="HotNewsResultMap" type="com.example.entity.HotNews">
         <id property="id" column="id" />
         <result property="title" column="title" />
@@ -29,12 +21,24 @@ where title like CONCAT('%',#{title},'%')
         <result property="numberOfSearches" column="numberOfSearches" />
         <result property="created_at" column="created_at" />
         <result property="updated_at" column="updated_at" />
-        <association property="comment" javaType="com.example.entity.Comment">
+        <collection property="commentList" column="id" ofType="com.example.entity.Comment">
             <id property="id" column="id" />
             <result property="content" column="content" />
             <result property="hot_news_id" column="hot_news_id" />
             <result property="created_at" column="created_at" />
             <result property="updated_at" column="updated_at" />
-        </association>
+        </collection>
     </resultMap>
+    <select id="getHotNewsAndCommentById" parameterType="int" resultMap="HotNewsResultMap">
+        SELECT * FROM
+            hot_news t1
+                inner JOIN comment t2
+                           ON t1.id = t2.hot_news_id
+        WHERE
+            t1.id = #{id}
+    </select>
+    <select id="countByTitle" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM hot_news
+        WHERE title LIKE CONCAT('%', #{title}, '%')
+    </select>
 </mapper>

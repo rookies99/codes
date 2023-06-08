@@ -16,16 +16,16 @@ public class HotNewsController {
     @Autowired
     private HotNewsService hotNewsService;
 
-    // 获取热点事件列表
-    @GetMapping("/getAll")
-    public List<HotNews> getAll() {
-        return hotNewsService.getAll();
-    }
+//    // 获取热点事件列表
+//    @GetMapping("/getAll")
+//    public List<HotNews> getAll() {
+//        return hotNewsService.getAll();
+//    }
 
     // 模糊查询查询事件
     @GetMapping("/search")
-    public List<HotNews> getHotNewsByTitle(String title) {
-        return hotNewsService.getHotNewsByTitle(title);
+    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize) {
+        return hotNewsService.getHotNewsByTitle(title, offset, pageSize);
     }
 
     // 获取联表数据
@@ -34,5 +34,11 @@ public class HotNewsController {
         return hotNewsService.getHotNewsAndCommentById(id);
     }
 
+
+    // 获取总记录数
+    @GetMapping("/getCount")
+    public int countByTitle(String title) {
+        return hotNewsService.countByTitle(title);
+    }
 
 }

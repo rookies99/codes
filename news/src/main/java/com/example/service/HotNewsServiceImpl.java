@@ -17,19 +17,24 @@ public class HotNewsServiceImpl implements HotNewsService{
     @Autowired
     private HotNewsDao hotNewsDao;
 
-    @Override
-    public List<HotNews> getAll() {
-        return hotNewsDao.getAll();
-    }
+//    @Override
+//    public List<HotNews> getAll() {
+//        return hotNewsDao.getAll();
+//    }
 
     @Override
-    public List<HotNews> getHotNewsByTitle(String title) {
-        return hotNewsDao.getHotNewsByTitle(title);
+    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize) {
+        return hotNewsDao.getHotNewsByTitle(title, offset, pageSize);
     }
 
     @Override
     public List<HotNews> getHotNewsAndCommentById(Integer id) {
         return hotNewsDao.getHotNewsAndCommentById(id);
+    }
+
+    @Override
+    public int countByTitle(String title) {
+        return hotNewsDao.countByTitle(title);
     }
 
 }
