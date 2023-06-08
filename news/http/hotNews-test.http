@@ -1,4 +1,4 @@
-GET http://localhost:8080/news/hotNews/getCount?title=
+GET http://localhost:8080/news/comment/getCommentByhotNewsId?hot_news_id=1
 Accept: application/json
 
 ###
