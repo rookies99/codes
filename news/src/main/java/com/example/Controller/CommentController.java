@@ -21,5 +21,8 @@ public class CommentController {
         return commentService.addComment(comment);
     }
 
-
+    @GetMapping("/getCommentByhotNewsId")
+    public List<Comment> getCommentByhotNewsId(int hotNewsId){
+        return commentService.getCommentByhotNewsId(hotNewsId);
+    }
 }

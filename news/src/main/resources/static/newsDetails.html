@@ -79,10 +79,15 @@
                 }
             }).then((res) => {
                 this.hotNews = res.data[0];
-                this.comments = res.data[0].commentList;
                 console.log(this.hotNews)
+            });
+            axios.get("http://localhost:8080/news/comment/getCommentByhotNewsId",{
+                params: {
+                    hotNewsId:this.id
+                }
+            }).then((res) => {
+                this.comments = res.data;
                 console.log(this.comments)
-                console.log(this.hotNews.title)
             });
         },
     });

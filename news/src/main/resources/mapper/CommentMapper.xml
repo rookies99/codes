@@ -9,5 +9,9 @@
         INSERT INTO comment ( content, hot_news_id, created_at, updated_at)
         VALUES (#{content}, #{hot_news_id}, now(), now())
     </insert>
+    <select id="getCommentByhotNewsId" resultType="com.example.entity.Comment">
+        select * from comment
+        where hos_news_id = #{hosNewsId}
+    </select>
 
 </mapper>

@@ -11,32 +11,17 @@
     <select id="getHotNewsByTitle" resultType="com.example.entity.HotNews">
         select id,title,article,numberOfSearches,created_at,updated_at from hot_news
         where title like CONCAT('%',#{title},'%')
+        ORDER BY numberOfSearches desc
             LIMIT #{pageSize} OFFSET ${(offset-1)*pageSize}
     </select>
 
-    <resultMap id="HotNewsResultMap" type="com.example.entity.HotNews">
-        <id property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="article" column="article" />
-        <result property="numberOfSearches" column="numberOfSearches" />
-        <result property="created_at" column="created_at" />
-        <result property="updated_at" column="updated_at" />
-        <collection property="commentList" column="id" ofType="com.example.entity.Comment">
-            <id property="id" column="id" />
-            <result property="content" column="content" />
-            <result property="hot_news_id" column="hot_news_id" />
-            <result property="created_at" column="created_at" />
-            <result property="updated_at" column="updated_at" />
-        </collection>
-    </resultMap>
-    <select id="getHotNewsAndCommentById" parameterType="int" resultMap="HotNewsResultMap">
+    <select id="getHotNewsAndCommentById" resultType="com.example.entity.HotNews">
         SELECT * FROM
-            hot_news t1
-                inner JOIN comment t2
-                           ON t1.id = t2.hot_news_id
+            hot_news
         WHERE
-            t1.id = #{id}
+            id = #{id}
     </select>
+
     <select id="countByTitle" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM hot_news
         WHERE title LIKE CONCAT('%', #{title}, '%')
