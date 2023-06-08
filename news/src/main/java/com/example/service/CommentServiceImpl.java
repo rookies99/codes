@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.Dao.CommentDao;
+import com.example.entity.Comment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class CommentServiceImpl implements CommentService{
     private CommentDao commentDao;
 
     @Override
-    public int addComment(int hotNewsId, String content) {
-        return commentDao.addComment(hotNewsId,content);
+    public Integer addComment(Comment comment) {
+        return commentDao.addComment(comment);
     }
 }

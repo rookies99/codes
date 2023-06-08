@@ -2,7 +2,9 @@ package com.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HotNews {
     private Integer id;
@@ -13,16 +15,16 @@ public class HotNews {
     private Date created_at;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_at;
-    private Comment comment;
+    private List<Comment> commentList = new ArrayList<>();
 
-    public HotNews(Integer id, String title, String article, Integer numberOfSearches, Date created_at, Date updated_at, Comment comment) {
+    public HotNews(Integer id, String title, String article, Integer numberOfSearches, Date created_at, Date updated_at, List<Comment> commentList) {
         this.id = id;
         this.title = title;
         this.article = article;
         this.numberOfSearches = numberOfSearches;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.comment = comment;
+        this.commentList = commentList;
     }
 
     public HotNews() {
@@ -76,11 +78,11 @@ public class HotNews {
         this.updated_at = updated_at;
     }
 
-    public Comment getComment() {
-        return comment;
+    public List<Comment> getCommentList() {
+        return commentList;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.service;
 
+import com.example.entity.Comment;
+
 public interface CommentService {
-    int addComment(int hotNewsId, String content);
+    Integer  addComment(Comment comment);
 }
