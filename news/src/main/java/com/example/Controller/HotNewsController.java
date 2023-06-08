@@ -33,4 +33,6 @@ public class HotNewsController {
     public List<HotNews> getHotNewsAndCommentById(Integer id) {
         return hotNewsService.getHotNewsAndCommentById(id);
     }
+
+
 }

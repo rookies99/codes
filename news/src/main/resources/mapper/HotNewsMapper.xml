@@ -12,40 +12,29 @@
         select id,title,article,numberOfSearches,created_at,updated_at from hot_news
 where title like CONCAT('%',#{title},'%')
     </select>
-    <select id="getHotNewsAndCommentById" resultMap="HotNewsWithCommentResultMap">
+    <select id="getHotNewsAndCommentById" resultMap="HotNewsResultMap">
         SELECT
-            t1.id,
-            t1.title,
-            t1.article,
-            t1.numberOfSearches,
-            t1.created_at,
-            t1.updated_at,
-            t2.id,
-            t2.content,
-            t2.hot_news_id,
-            t2.created_at,
-            t2.updated_at
+            *
         FROM
             hot_news t1
-                LEFT JOIN
+                inner JOIN
             comment t2 ON t1.id = t2.hot_news_id
         WHERE
             t1.id = #{id}
     </select>
-    <resultMap id="HotNewsWithCommentResultMap" type="com.example.entity.HotNews">
+    <resultMap id="HotNewsResultMap" type="com.example.entity.HotNews">
         <id property="id" column="id" />
         <result property="title" column="title" />
         <result property="article" column="article" />
         <result property="numberOfSearches" column="numberOfSearches" />
         <result property="created_at" column="created_at" />
         <result property="updated_at" column="updated_at" />
-        <association property="comment" resultMap="commentResultMap"/>
-    </resultMap>
-    <resultMap id="commentResultMap" type="com.example.entity.Comment">
-        <id property="id" column="id" />
-        <result property="content" column="content" />
-        <result property="hot_news_id" column="hot_news_id" />
-        <result property="created_at" column="created_at" />
-        <result property="updated_at" column="updated_at" />
+        <association property="comment" javaType="com.example.entity.Comment">
+            <id property="id" column="id" />
+            <result property="content" column="content" />
+            <result property="hot_news_id" column="hot_news_id" />
+            <result property="created_at" column="created_at" />
+            <result property="updated_at" column="updated_at" />
+        </association>
     </resultMap>
 </mapper>
