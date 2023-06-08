@@ -7,14 +7,14 @@
 </head>
 <body>
 <div id="app">
-    <h1>{{ hotNews.title }}123</h1>
-    <p>创建时间: {{ formatDate(hotNews.created_at) }}123</p>
+    <h1>{{hotNews.title}}</h1>
+    <p>创建时间: {{ hotNews.created_at }}</p>
     <div v-html="hotNews.article"></div>
 
     <h2>评论</h2>
     <ul>
         <li v-for="comment in comments" :key="comment.id">
-            <p>{{ formatDate(comment.created_at) }}</p>
+            <p>{{ comment.created_at }}</p>
             <p>{{ comment.content }}</p>
         </li>
     </ul>
@@ -50,31 +50,33 @@
                 });
             },
             submitComment() {
-                axios.post("http://localhost:8080/news/hotNews/comment", {
-                    content: this.newComment,
+                axios.put("http://localhost:8080/news/comment/addComment", {
+                    hotNewsId:this.id,content: this.newComment,
                 }).then((res) => {
                     this.comments.push(res.data);
                     this.newComment = '';
                 });
             },
             goToHomePage() {
-                window.location.href = "http://localhost:8080/news/hotNews/index";
-            },
-            formatDate(date) {
-                return new Date(date).toLocaleString();
+                window.location.href = "http://localhost:8080/news/newsList.html";
             },
         },
         created() {
             // 获取id
             const searchParams = new URLSearchParams(window.location.search);
             this.id = searchParams.get('id');
-            console.log("id",this.id)
+            console.log(this.id)
             // 查询所有信息
             axios.get("http://localhost:8080/news/hotNews/getHotNewsAndCommentById",{
-                id:this.id
+                params: {
+                    id:this.id
+                }
             }).then((res) => {
-                this.hotNews = res.data;
+                this.hotNews = res.data[0];
+                this.comments = res.data[0].comment;
                 console.log(this.hotNews)
+                console.log(this.comments)
+                console.log(this.hotNews.title)
             });
         },
     });
