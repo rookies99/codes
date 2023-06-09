@@ -9,6 +9,6 @@ import java.util.List;
 public interface CommentDao {
     Integer addComment(Comment comment);
 
-    List<Comment> getCommentByhotNewsId(int hosNewsId);
+    List<Comment> getCommentByhotNewsId(Integer hotNewsId);
     
 }

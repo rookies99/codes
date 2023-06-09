@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> getCommentByhotNewsId(int hosNewsId) {
-        return commentDao.getCommentByhotNewsId(hosNewsId);
+    public List<Comment> getCommentByhotNewsId(Integer hotNewsId) {
+        return commentDao.getCommentByhotNewsId(hotNewsId);
     }
 }

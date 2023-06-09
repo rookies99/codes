@@ -22,7 +22,7 @@ public class CommentController {
     }
 
     @GetMapping("/getCommentByhotNewsId")
-    public List<Comment> getCommentByhotNewsId(int hotNewsId){
+    public List<Comment> getCommentByhotNewsId(Integer hotNewsId){
         return commentService.getCommentByhotNewsId(hotNewsId);
     }
 }

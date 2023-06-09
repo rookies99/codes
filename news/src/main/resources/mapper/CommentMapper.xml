@@ -11,7 +11,7 @@
     </insert>
     <select id="getCommentByhotNewsId" resultType="com.example.entity.Comment">
         select * from comment
-        where hos_news_id = #{hosNewsId}
+        where hot_news_id = #{hotNewsId}
     </select>
 
 </mapper>

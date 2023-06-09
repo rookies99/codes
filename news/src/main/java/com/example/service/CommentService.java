@@ -7,5 +7,5 @@ import java.util.List;
 public interface CommentService {
     Integer  addComment(Comment comment);
 
-    List<Comment> getCommentByhotNewsId(int hosNewsId);
+    List<Comment> getCommentByhotNewsId(Integer hotNewsId);
 }
