@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+<div id="app" class="container">
+    <h2>用户注册</h2>
+    <form @submit.prevent="submitForm">
+        <div class="form-group">
+            <label for="nickname">昵称</label>
+            <input type="text" id="nickname" v-model="nickname">
+        </div>
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" v-model="username" required>
+            <div v-if="errors.username" class="error-message">{{ errors.username }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="gender">性别</label>
+            <div id="gender">
+                <label>
+                    <input type="radio" id="male" value="male" v-model="gender"> 男
+                </label>
+                <label>
+                    <input type="radio" id="female" value="female" v-model="gender"> 女
+                </label>
+            </div>
+            <div v-if="errors.gender" class="error-message">{{ errors.gender }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" v-model="password" required>
+            <div v-if="errors.password" class="error-message">{{ errors.password }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm-password">确认密码</label>
+            <input type="password" id="confirm-password" v-model="confirmPassword" required>
+            <div v-if="errors.confirmPassword" class="error-message">{{ errors.confirmPassword }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" id="email" v-model="email" required>
+            <div v-if="errors.email" class="error-message">{{ errors.email }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">手机号</label>
+            <input type="tel" id="phone" v-model="phoneNumber">
+            <div v-if="errors.phoneNumber" class="error-message">{{ errors.phoneNumber }}</div>
+        </div>
+
+        <div class="form-group">
+            <label for="city">城市</label>
+            <input type="text" id="city" v-model="city">
+        </div>
+
+        <div class="form-group">
+            <label for="verification-code">验证码</label>
+            <img :src="url">
+            <input type="text" id="verification-code" v-model="verificationCode" required>
+            <div v-if="errors.verificationCode" class="error-message">{{ errors.verificationCode }}</div>
+        </div>
+        <div v-if="successMessage" class="form-group success-message">{{ successMessage }}</div>
+
+        <div class="form-group">
+            <button type="submit">提交注册</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                nickname: '',
+                gender: '',
+                city: '',
+                verificationCode: '',
+                phoneNumber: '',
+                errors: {},
+                successMessage: '',
+                url: "",
+
+            };
+        },
+        methods: {
+            submitForm() {
+                // 重置错误和成功消息
+                this.errors = {};
+                this.successMessage = '';
+
+                // 进行表单验证
+                if (!this.username) {
+                    this.errors.username = '请填写用户名';
+                }
+
+                if (!this.email) {
+                    this.errors.email = '请填写邮箱';
+                }
+
+                if (!this.password) {
+                    this.errors.password = '请填写密码';
+                }
+
+                if (!this.confirmPassword) {
+                    this.errors.confirmPassword = '请确认密码';
+                } else if (this.confirmPassword !== this.password) {
+                    this.errors.confirmPassword = '两次输入的密码不一致';
+                }
+
+                if (!this.verificationCode) {
+                    this.errors.verificationCode = '请填写验证码';
+                }
+
+                if (!this.phoneNumber) {
+                    this.errors.phoneNumber = '请填写手机号';
+                } else if (!/^\d{11}$/.test(this.phoneNumber)) {
+                    this.errors.phoneNumber = '无效的电话号码';
+                }
+
+                // 如果没有错误，则提交表单
+                if (Object.keys(this.errors).length === 0) {
+
+
+                    // 模拟注册成功
+                    this.successMessage = '注册通过';
+                    this.username = '';
+                    this.email = '';
+                    this.password = '';
+                    this.confirmPassword = '';
+                    this.nickname = '';
+                    this.gender = '';
+                    this.city = '';
+                    this.verificationCode = '';
+                    this.phoneNumber = '';
+                }
+            },
+        },
+        created(){
+            axios.get("http://localhost:8080/news/user/getImage/").then(res=>{
+                console.log(res.data)
+                this.url = res.data;
+            })
+        }
+
+    });
+
+    app.mount('#app');
+</script>
+</body>
+</html> 
+
