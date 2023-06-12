@@ -1,23 +1,53 @@
 package com.example.Controller;
 
+import com.example.entity.User;
+import com.example.service.UserService;
 import com.example.utils.VerifyCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin //运行跨域
 @RequestMapping("user")
+@Slf4j
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("register")
+    public Map<String, Object> register(@RequestBody User user, String code, HttpServletRequest request) {
+        log.info("用户信息{}", user.toString());
+        log.info("用户输入的验证码信息：{}",code);
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String key = (String) request.getServletContext().getAttribute("code");
+            if (key.equalsIgnoreCase(code)) {
+                userService.register(user);
+                map.put("state", true);
+                map.put("msg", "注册成功");
+            } else {
+                throw new RuntimeException("验证码错误");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state", false);
+            map.put("msg", "提示：注册失败！");
+        }
+        return map;
+    }
+
 
     /**
      * 生成验证码图片
