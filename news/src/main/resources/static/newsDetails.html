@@ -10,7 +10,6 @@
     <h1>{{hotNews.title}}</h1>
     <p>创建时间: {{ hotNews.created_at }}</p>
     <div v-html="hotNews.article"></div>
-
     <h2>评论</h2>
     <ul ref="comments">
         <li v-for="comment in comments" :key="comment.id">

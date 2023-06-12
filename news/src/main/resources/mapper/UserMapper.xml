@@ -4,9 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.Dao.UserDao">
 
-    <insert id="register">
-        INSERT INTO user (nickname, username, password, email, mobile, location, created_at, updated_at)
-        VALUES
-            (#{nickname}, #{username}, #{password}, '#{email}', #{mobile}, #{location}, now(), now())
+    <insert id="register" parameterType="com.example.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (nickname, username, gender, password, email, mobile, location, created_at, updated_at)
+        VALUES (#{nickname}, #{username}, #{gender}, #{password}, #{email}, #{mobile}, #{location}, now(), now())
     </insert>
 </mapper>

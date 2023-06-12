@@ -5,7 +5,6 @@ import com.example.service.UserService;
 import com.example.utils.VerifyCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class UserController {
 
     @PostMapping("register")
     public Map<String, Object> register(@RequestBody User user, String code, HttpServletRequest request) {
-        log.info("用户信息{}", user.toString());
+
         log.info("用户输入的验证码信息：{}",code);
         Map<String, Object> map = new HashMap<>();
         try {

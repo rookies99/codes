@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 @Service
 @Transactional
 @Slf4j
@@ -17,6 +20,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Integer register(User user) {
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        log.info("用户信息{}", user);
         return userDao.register(user);
     }
+
 }

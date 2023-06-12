@@ -52,14 +52,14 @@
         </div>
 
         <div class="form-group">
-            <label for="phone">手机号</label>
-            <input type="tel" id="phone" v-model="user.phoneNumber">
-            <div v-if="errors.phoneNumber" class="error-message">{{ errors.phoneNumber }}</div>
+            <label for="mobile">手机号</label>
+            <input type="tel" id="mobile" v-model="user.mobile">
+            <div v-if="errors.mobile" class="error-message">{{ errors.mobile }}</div>
         </div>
 
         <div class="form-group">
-            <label for="city">城市</label>
-            <input type="text" id="city" v-model="user.city">
+            <label for="location">城市</label>
+            <input type="text" id="location" v-model="user.location">
         </div>
 
         <div class="form-group">
@@ -84,7 +84,6 @@
         data() {
             return {
                 user: {},
-                phoneNumber: '',
                 code: '',
                 errors: {},
                 successMessage: '',
@@ -101,6 +100,9 @@
                 // 进行表单验证
                 if (!this.user.username) {
                     this.errors.username = '请填写用户名';
+                }
+                if (!this.user.nickname) {
+                    this.errors.nickname = '请填写用户名';
                 }
 
                 if (!this.user.email) {
@@ -121,13 +123,13 @@
                     this.errors.code = '请填写验证码';
                 }
 
-                if (!this.user.phoneNumber) {
-                    this.errors.phoneNumber = '请填写手机号';
-                } else if (!/^\d{11}$/.test(this.user.phoneNumber)) {
-                    this.errors.phoneNumber = '无效的电话号码';
+                if (!this.user.mobile) {
+                    this.errors.mobile = '请填写手机号';
+                } else if (!/^\d{11}$/.test(this.user.mobile)) {
+                    this.errors.mobile = '无效的电话号码';
                 }
-                if (!this.user.city) {
-                    this.errors.city = '请填写城市';
+                if (!this.user.location) {
+                    this.errors.location = '请填写城市';
                 }
 
                 // 如果没有错误，则提交表单
@@ -138,17 +140,18 @@
                 }
             },
             register() {
-                axios.post("http://localhost:8080/news/user/register?code="+this.code,this.user).then(res=>{
+                axios.post("http://localhost:8080/news/user/register?code=" + this.code, this.user).then(res => {
                     console.log(res.data);
                 })
             },
         },
-        created(){
-            axios.get("http://localhost:8080/news/user/getImage/").then(res=>{
+        created() {
+            axios.get("http://localhost:8080/news/user/getImage/").then(res => {
                 console.log(res.data)
                 this.url = res.data;
             })
-        }
+        },
+
 
     });
 
