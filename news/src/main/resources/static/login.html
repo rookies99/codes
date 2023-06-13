@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div id="app" class="container">
+    <h2>用户登录</h2>
+    <form @submit.prevent="submitForm">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" v-model="user.username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" v-model="user.password" required>
+        </div>
+
+        <div v-if="errorMessage" class="form-group" style="color: red;">{{ errorMessage }}</div>
+
+        <div class="form-group">
+            <button type="submit">登录</button>
+        </div>
+    </form>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                user: {
+                    username: '',
+                    password: ''
+                },
+                errorMessage: ''
+            };
+        },
+        methods: {
+            submitForm() {
+                // 重置错误消息
+                this.errorMessage = '';
+
+                // 进行表单验证
+                if (!this.user.username || !this.user.password) {
+                    this.errorMessage = '请填写用户名和密码';
+                    return;
+                }
+
+                // 发送登录请求
+                this.login();
+            },
+            login() {
+                axios.post("http://localhost:8080/news/user/login", this.user).then(res => {
+                    // 根据后端返回的结果进行处理
+                    if (res.data.success) {
+                        // 登录成功，执行相关操作
+                        alert('登录成功！');
+                        // 重定向到其他页面或执行其他逻辑
+                    } else {
+                        // 登录失败，显示错误消息
+                        this.errorMessage = res.data.message;
+                    }
+                }).catch(error => {
+                    // 请求发生错误，显示错误消息
+                    this.errorMessage = '登录请求发生错误';
+                    console.error(error);
+                });
+            }
+        }
+    });
+
+    app.mount('#app');
+</script>
+</body>
+</html>

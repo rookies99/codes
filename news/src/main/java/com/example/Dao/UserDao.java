@@ -2,6 +2,7 @@ package com.example.Dao;
 
 import com.example.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserDao {
@@ -12,4 +13,6 @@ public interface UserDao {
     Integer checkEmail(String email);
 
     Integer checkMobile(String mobile);
+
+    Integer login(@Param("username") String username, @Param("password") String password);
 }

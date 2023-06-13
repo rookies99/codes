@@ -17,4 +17,7 @@
     <select id="checkMobile" resultType="java.lang.Integer">
         select count(1) from user where mobile = #{mobile}
     </select>
+    <select id="login" resultType="java.lang.Integer">
+        select count(1) from user where username = #{username} and password = #{password}
+    </select>
 </mapper>
