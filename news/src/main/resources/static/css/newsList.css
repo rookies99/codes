@@ -18,3 +18,8 @@ tr:nth-child(even) {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}

@@ -1,92 +1,139 @@
 package com.example.entity;
 
-import java.util.Date;
+
+import java.sql.Timestamp;
 
 public class User {
-    private Integer id;
-    private String nickname;
-    private String password;
-    private String email;
-    private Integer mobile;
-    private String location;
-    private Date created_at;
-    private Date updated_at;
 
-    public User(Integer id, String nickname, String password, String email, Integer mobile, String location, Date created_at, Date updated_at) {
-        this.id = id;
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
-        this.mobile = mobile;
-        this.location = location;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
+  private long id;
+  private String nickname;
+  private String username;
+  private String gender;
+  private String password;
+  private String email;
+  private String mobile;
+  private String location;
+  private java.sql.Timestamp createdAt;
+  private java.sql.Timestamp updatedAt;
 
-    public User() {
-    }
+  public User() {
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public User(long id, String nickname, String username, String gender, String password, String email, String mobile, String location, Timestamp createdAt, Timestamp updatedAt) {
+    this.id = id;
+    this.nickname = nickname;
+    this.username = username;
+    this.gender = gender;
+    this.password = password;
+    this.email = email;
+    this.mobile = mobile;
+    this.location = location;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public String getNickname() {
-        return nickname;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getNickname() {
+    return nickname;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public Integer getMobile() {
-        return mobile;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setMobile(Integer mobile) {
-        this.mobile = mobile;
-    }
 
-    public String getLocation() {
-        return location;
-    }
+  public String getGender() {
+    return gender;
+  }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
 
-    public Date getCreated_at() {
-        return created_at;
-    }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public Date getUpdated_at() {
-        return updated_at;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
-    }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
+  }
+
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+
+  public java.sql.Timestamp getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(java.sql.Timestamp createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public java.sql.Timestamp getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(java.sql.Timestamp updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", nickname='" + nickname + '\'' +
+            ", username='" + username + '\'' +
+            ", gender='" + gender + '\'' +
+            ", password='" + password + '\'' +
+            ", email='" + email + '\'' +
+            ", mobile='" + mobile + '\'' +
+            ", location='" + location + '\'' +
+            ", createdAt=" + createdAt +
+            ", updatedAt=" + updatedAt +
+            '}';
+  }
 }

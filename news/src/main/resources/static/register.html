@@ -13,6 +13,7 @@
         <div class="form-group">
             <label for="nickname">昵称</label>
             <input type="text" id="nickname" v-model="user.nickname">
+            <div v-if="errors.nickname" class="error-message">{{ errors.nickname }}</div>
         </div>
         <div class="form-group">
             <label for="username">用户名</label>
@@ -47,7 +48,7 @@
 
         <div class="form-group">
             <label for="email">邮箱</label>
-            <input type="email" id="email" v-model="user.email" required>
+            <input type="email" id="email" v-model="user.email" required >
             <div v-if="errors.email" class="error-message">{{ errors.email }}</div>
         </div>
 
@@ -60,11 +61,12 @@
         <div class="form-group">
             <label for="location">城市</label>
             <input type="text" id="location" v-model="user.location">
+            <div v-if="errors.location" class="error-message">{{ errors.location }}</div>
         </div>
 
         <div class="form-group">
             <label for="code">验证码</label>
-            <img :src="url">
+            <img :src="url" alt="验证码">
             <input type="text" id="code" v-model="code" required>
             <div v-if="errors.code" class="error-message">{{ errors.code }}</div>
         </div>
@@ -88,6 +90,8 @@
                 errors: {},
                 successMessage: '',
                 url: "",
+                map: [],
+
 
             };
         },
@@ -102,11 +106,14 @@
                     this.errors.username = '请填写用户名';
                 }
                 if (!this.user.nickname) {
-                    this.errors.nickname = '请填写用户名';
+                    this.errors.nickname = '请填写昵称';
                 }
 
                 if (!this.user.email) {
                     this.errors.email = '请填写邮箱';
+                }
+                if (!this.user.gender) {
+                    this.errors.gender = '请选择性别';
                 }
 
                 if (!this.user.password) {
@@ -132,22 +139,64 @@
                     this.errors.location = '请填写城市';
                 }
 
+                // 已注册验证
+                this.checkUserName();
+                this.checkEmail();
+                this.checkMobile();
+                console.log(this.errors)
                 // 如果没有错误，则提交表单
                 if (Object.keys(this.errors).length === 0) {
-                    // 模拟注册成功
                     this.register();
                     this.user = {};
+                    this.confirmPassword = "";
                 }
             },
+            checkUserName() {
+                axios.get("http://localhost:8080/news/user/checkUserName",{
+                    params:{username:this.user.username}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        this.errors.username = '用户名已被注册';
+                    } else {
+                        delete this.errors.username;
+                    }
+                })
+            },
+            checkEmail() {
+                axios.get("http://localhost:8080/news/user/checkEmail",{
+                    params:{email:this.user.email}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        this.errors.email = '邮箱已被注册';
+                    } else {
+                        delete this.errors.email;
+                    }
+                })
+            },
+            checkMobile() {
+                axios.get("http://localhost:8080/news/user/checkMobile",{
+                    params:{mobile:this.user.mobile}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        this.errors.mobile = '手机号已被注册';
+                    } else {
+                        delete this.errors.mobile;
+                    }
+                })
+            },
+
             register() {
                 axios.post("http://localhost:8080/news/user/register?code=" + this.code, this.user).then(res => {
-                    console.log(res.data);
+                    this.map = res.data
+                    if (this.map.state === true) {
+                        window.location.href = '/news/login.html'
+                    }
                 })
             },
         },
         created() {
             axios.get("http://localhost:8080/news/user/getImage/").then(res => {
-                console.log(res.data)
+                console.log("验证码；",res.data)
                 this.url = res.data;
             })
         },

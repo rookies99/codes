@@ -19,7 +19,11 @@
           </tr>
           </thead>
           <tr v-for="news in hotNews" :key="news.id">
-              <td @click="goToDetail(news.id)"><a href="#">{{news.title}}</a></td>
+              <td @click="goToDetail(news.id)">
+                  <a href="#"
+                     v-html="highlightTitle(news.title)">
+                  </a>
+              </td>
               <td>{{news.numberOfSearches}}</td>
               <td>{{news.created_at}}</td>
           </tr>
@@ -55,7 +59,7 @@
                     params: {title:this.title}
                 }).then((res)=>{
                     console.log("记录数：",res.data)
-                    this.totalPages = (res.data+this.pageSize-1)/this.pageSize
+                    this.totalPages = Math.ceil (res.data/this.pageSize)
                     console.log(this.totalPages)
                 })
                 axios.get("http://localhost:8080/news/hotNews/search", {
@@ -67,6 +71,11 @@
                 }).then((res) => {
                     this.hotNews = res.data;
                 });
+
+            },
+            highlightTitle(title) {
+                const regex = new RegExp(this.title, 'gi');
+                return title.replace(regex, `<span class="highlight">$&</span>`);
             },
             goToDetail(id) {
                 window.location.href = "http://localhost:8080/news/newsDetails.html?id=" + id;
@@ -99,6 +108,12 @@
         created() {
             this.searchNews();
         },
+        computed: {
+            highlightedTitle() {
+                const regex = new RegExp(this.title, 'gi');
+                return this.hotNews.title.replace(regex, `<span class="highlight">$&</span>`);
+            }
+        }
     });
 
     app.mount('#app');

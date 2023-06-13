@@ -1,6 +1,6 @@
 .container {
-    /*border: 1px solid red;*/
-    max-width: 400px;
+    border: 1px solid red;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -8,8 +8,11 @@
     align-items: center;
     text-align: center;
 }
-
+form{
+    border: 1px solid green;
+}
 .form-group {
+    border: 1px solid blue;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -32,6 +35,8 @@
 .form-group .error-message {
     color: red;
     margin-top: 5px;
+    position: absolute;
+    left:67%;
 }
 
 .form-group .success-message {

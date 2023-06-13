@@ -26,4 +26,19 @@ public class UserServiceImpl implements UserService{
         return userDao.register(user);
     }
 
+    @Override
+    public Integer checkUserName(String username) {
+        return userDao.checkUserName(username);
+    }
+
+    @Override
+    public Integer checkEmail(String email) {
+        return userDao.checkEmail(email);
+    }
+
+    @Override
+    public Integer checkMobile(String mobile) {
+        return userDao.checkMobile(mobile);
+    }
+
 }

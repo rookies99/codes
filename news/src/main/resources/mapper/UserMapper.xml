@@ -8,4 +8,13 @@
         INSERT INTO user (nickname, username, gender, password, email, mobile, location, created_at, updated_at)
         VALUES (#{nickname}, #{username}, #{gender}, #{password}, #{email}, #{mobile}, #{location}, now(), now())
     </insert>
+    <select id="checkUserName" resultType="java.lang.Integer">
+        select count(1) from user where username = #{username}
+    </select>
+    <select id="checkEmail" resultType="java.lang.Integer">
+        select count(1) from user where email = #{email}
+    </select>
+    <select id="checkMobile" resultType="java.lang.Integer">
+        select count(1) from user where mobile = #{mobile}
+    </select>
 </mapper>

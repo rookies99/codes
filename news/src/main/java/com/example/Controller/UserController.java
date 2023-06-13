@@ -67,4 +67,23 @@ public class UserController {
         byte[] imageBytes = outputStream.toByteArray();
         return "data:image/png;base64,"+Base64Utils.encodeToString(imageBytes);
     }
+
+    /**
+     * 检查用户名、邮箱 是否已存在
+     */
+
+    @GetMapping("checkUserName")
+    public Integer checkUserName(String username) {
+        return userService.checkUserName(username);
+    }
+
+    @GetMapping("checkEmail")
+    public Integer checkEmail(String email) {
+        return userService.checkEmail(email);
+    }
+
+    @GetMapping("checkMobile")
+    public Integer checkMobile(String mobile) {
+        return userService.checkMobile(mobile);
+    }
 }
