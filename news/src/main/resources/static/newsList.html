@@ -7,6 +7,7 @@
 </head>
 <body>
   <div id="app">
+      <div v-if="welcome" class="form-group" style="color: red;font-size: 24px;">{{welcome}}</div>
       <h1>热点事件排行榜</h1>
       关键词：<input type="text" id="search-input"  placeholder="关键词搜索" v-model="title">
       <button @click="searchNews">查询</button>
@@ -14,7 +15,11 @@
           <thead>
           <tr>
               <th>关键词</th>
-              <th>搜索指数</th>
+              <th>
+                  搜索指数
+                  <a href="#" @click="toggleOrder('asc')" :class="{ 'active': sortOrder === 'asc' }">▲</a>
+                  <a href="#" @click="toggleOrder('desc')" :class="{ 'active': sortOrder === 'desc' }">▼</a>
+              </th>
               <th>创建时间</th>
           </tr>
           </thead>
@@ -51,6 +56,10 @@
                 currentPage: 1,
                 totalPages: 1,
                 pageSize: 3,
+                userId: "",
+                nickname: "",
+                welcome: "",
+                sortOrder: '',
             };
         },
         methods: {
@@ -67,18 +76,23 @@
                         title: this.title,
                         offset: this.currentPage,
                         pageSize: this.pageSize,
+                        desc:this.sortOrder
                     }
                 }).then((res) => {
                     this.hotNews = res.data;
                 });
 
             },
+            toggleOrder(order) {
+                this.sortOrder = order === this.sortOrder ? '' : order; // 切换排序顺序
+                this.searchNews(); // 重新搜索
+            },
             highlightTitle(title) {
                 const regex = new RegExp(this.title, 'gi');
                 return title.replace(regex, `<span class="highlight">$&</span>`);
             },
-            goToDetail(id) {
-                window.location.href = "http://localhost:8080/news/newsDetails.html?id=" + id;
+            goToDetail(hotNewsId) {
+                window.location.href = "http://localhost:8080/news/newsDetails.html?hotNewsId=" + hotNewsId+"&userId="+this.userId+"&nickname="+this.nickname;
             },
             goToFirstPage() {
                 if (this.currentPage !== 1) {
@@ -107,13 +121,15 @@
         },
         created() {
             this.searchNews();
+            // 欢迎语句 | 获取id 和 昵称
+            const searchParams = new URLSearchParams(window.location.search);
+            this.userId = searchParams.get('id');
+            console.log(this.id)
+            this.nickname = searchParams.get('nickname')
+            this.welcome = "欢迎用户："+this.nickname;
+            console.log(this.nickname)
         },
-        computed: {
-            highlightedTitle() {
-                const regex = new RegExp(this.title, 'gi');
-                return this.hotNews.title.replace(regex, `<span class="highlight">$&</span>`);
-            }
-        }
+
     });
 
     app.mount('#app');
