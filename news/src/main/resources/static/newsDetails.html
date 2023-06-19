@@ -8,7 +8,7 @@
 <body>
 <div id="app">
     <h1>{{hotNews.title}}</h1>
-    <p>创建时间: {{ hotNews.created_at }}</p>
+    <p>创建时间: {{ hotNews.createdAt }}</p>
     <div v-html="hotNews.article"></div>
     <h2>评论</h2>
     <ul ref="comments">

@@ -8,7 +8,7 @@ import java.util.List;
 public interface HotNewsService {
 //    List<HotNews> getAll();
 
-    List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize,String desc);
+    List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize, String desc);
 
     List<HotNews> getHotNewsAndCommentById(Integer id);
 

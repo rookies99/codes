@@ -30,7 +30,7 @@
                   </a>
               </td>
               <td>{{news.numberOfSearches}}</td>
-              <td>{{news.created_at}}</td>
+              <td>{{news.createdAt}}</td>
           </tr>
       </table>
       <div id="pagination">
@@ -84,7 +84,7 @@
 
             },
             toggleOrder(order) {
-                this.sortOrder = order === this.sortOrder ? '' : order; // 切换排序顺序
+                this.sortOrder = (order === this.sortOrder ? '' : order); // 切换排序顺序
                 this.searchNews(); // 重新搜索
             },
             highlightTitle(title) {

@@ -1,88 +1,71 @@
 package com.example.entity2;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class HotNews {
-    private Integer id;
-    private String title;
-    private String article;
-    private Integer numberOfSearches;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date created_at;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updated_at;
-    private List<Comment> commentList = new ArrayList<>();
 
-    public HotNews(Integer id, String title, String article, Integer numberOfSearches, Date created_at, Date updated_at, List<Comment> commentList) {
-        this.id = id;
-        this.title = title;
-        this.article = article;
-        this.numberOfSearches = numberOfSearches;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.commentList = commentList;
-    }
+  private long id;
+  private String title;
+  private String article;
+  private long numberOfSearches;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private java.sql.Timestamp createdAt;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private java.sql.Timestamp updatedAt;
 
-    public HotNews() {
-    }
 
-    public Integer getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public String getArticle() {
-        return article;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setArticle(String article) {
-        this.article = article;
-    }
 
-    public Integer getNumberOfSearches() {
-        return numberOfSearches;
-    }
+  public String getArticle() {
+    return article;
+  }
 
-    public void setNumberOfSearches(Integer numberOfSearches) {
-        this.numberOfSearches = numberOfSearches;
-    }
+  public void setArticle(String article) {
+    this.article = article;
+  }
 
-    public Date getCreated_at() {
-        return created_at;
-    }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
+  public long getNumberOfSearches() {
+    return numberOfSearches;
+  }
 
-    public Date getUpdated_at() {
-        return updated_at;
-    }
+  public void setNumberOfSearches(long numberOfSearches) {
+    this.numberOfSearches = numberOfSearches;
+  }
 
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
-    }
 
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
+  public java.sql.Timestamp getCreatedAt() {
+    return createdAt;
+  }
 
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
+  public void setCreatedAt(java.sql.Timestamp createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public java.sql.Timestamp getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(java.sql.Timestamp updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
 }

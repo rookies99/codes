@@ -23,7 +23,7 @@ public class HotNewsServiceImpl implements HotNewsService{
 //    }
 
     @Override
-    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize,String desc) {
+    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize, String desc) {
         return hotNewsDao.getHotNewsByTitle(title, offset, pageSize ,desc);
     }
 
