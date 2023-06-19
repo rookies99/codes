@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.entity2;
 
 
 import java.sql.Timestamp;
