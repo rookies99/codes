@@ -13,12 +13,15 @@
             <label for="username">用户名</label>
             <input type="text" id="username" v-model="user.username" required>
         </div>
-
         <div class="form-group">
             <label for="password">密码</label>
             <input type="password" id="password" v-model="user.password" required>
         </div>
-
+        <div v-if="verify" class="form-group">
+            <label for="code">验证码</label>
+            <img :src="url" alt="验证码">
+            <input type="text" id="code" v-model="code" required>
+        </div>
         <div v-if="errorMessage" class="form-group" style="color: red;">{{ errorMessage }}</div>
 
         <div class="form-group">
@@ -33,11 +36,12 @@
     const app = Vue.createApp({
         data() {
             return {
-                user: {
-                    username: '',
-                    password: ''
-                },
-                errorMessage: ''
+                user: {},
+                errorMessage: '',
+                verify: false,
+                code: '',
+                url: "",
+
             };
         },
         methods: {
@@ -45,25 +49,64 @@
                 // 重置错误消息
                 this.errorMessage = '';
 
+                console.log(this.user);
+
                 // 进行表单验证
                 if (!this.user.username || !this.user.password) {
                     this.errorMessage = '请填写用户名和密码';
                     return;
                 }
 
-                // 发送登录请求
-                this.login();
+
+                // 验证码验证
+                if (this.verify) {
+                    if (!this.code) {
+                        this.errorMessage = '请填写验证码';
+                        return;
+                    }
+                    console.log(this.code)
+                    axios.get("http://localhost:8080/news/user/verifyCode", {
+                        params: {code:this.code}
+                    }).then(res => {
+                        console.log(res.data);
+                        if (!res.data) {
+                            this.errorMessage = '验证码错误';
+                            axios.get("http://localhost:8080/news/user/getImage/").then(res => {
+                                console.log("验证码；",res.data)
+                                this.url = res.data;
+                            })
+                        } else {
+                            // 发送登录请求
+                            this.login();
+                        }
+                    });
+                } else {
+                    // 发送登录请求
+                    this.login();
+                }
+
+
             },
             login() {
-                axios.post("http://localhost:8080/news/user/login", this.user).then(res => {
+                axios.get("http://localhost:8080/news/user/login",{
+                    params:{username:this.user.username,password:this.user.password,code:this.code}
+                }).then(res => {
                     // 根据后端返回的结果进行处理
-                    if (res.data.success) {
+                    console.log("res.data:",res.data);
+                    console.log("id:",res.data.id);
+                    if (res.data) {
                         // 登录成功，执行相关操作
                         alert('登录成功！');
                         // 重定向到其他页面或执行其他逻辑
+                        window.location.href = '/news/newsList.html?id='+res.data.id+"&nickname="+res.data.nickname;
                     } else {
                         // 登录失败，显示错误消息
-                        this.errorMessage = res.data.message;
+                        this.errorMessage = "账号或密码错误";
+                        this.verify = true;
+                        axios.get("http://localhost:8080/news/user/getImage/").then(res => {
+                            console.log("验证码；",res.data)
+                            this.url = res.data;
+                        })
                     }
                 }).catch(error => {
                     // 请求发生错误，显示错误消息
@@ -73,7 +116,6 @@
             }
         }
     });
-
     app.mount('#app');
 </script>
 </body>
