@@ -21,14 +21,14 @@
             <div v-if="errors.username" class="error-message">{{ errors.username }}</div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"  style="justify-content: left">
             <label for="gender">性别</label>
             <div id="gender">
                 <label>
-                    <input type="radio" id="male" value="male" v-model="user.gender"> 男
+                    <input type="radio" id="male" value="男" v-model="user.gender"> 男
                 </label>
                 <label>
-                    <input type="radio" id="female" value="female" v-model="user.gender"> 女
+                    <input type="radio" id="female" value="女" v-model="user.gender"> 女
                 </label>
             </div>
             <div v-if="errors.gender" class="error-message">{{ errors.gender }}</div>
@@ -42,7 +42,7 @@
 
         <div class="form-group">
             <label for="confirm-password">确认密码</label>
-            <input type="password" id="confirm-password" v-model="confirmPassword" required>
+            <input type="password" id="confirm-password" v-model="confirmPassword"  required>
             <div v-if="errors.confirmPassword" class="error-message">{{ errors.confirmPassword }}</div>
         </div>
 
@@ -82,6 +82,7 @@
 <script src="js/vue.global.js"></script>
 <script src="js/axios.min.js"></script>
 <script>
+
     const app = Vue.createApp({
         data() {
             return {
@@ -91,8 +92,6 @@
                 successMessage: '',
                 url: "",
                 map: [],
-
-
             };
         },
         methods: {
@@ -128,6 +127,15 @@
 
                 if (!this.code) {
                     this.errors.code = '请填写验证码';
+                } else {
+                    let verify =  axios.get("http://localhost:8080/news/user/verifyCode", {params: {code: this.code}});
+                    verify.then(res=>{
+                        console.log(res)
+                        if (!res.data) {
+                            this.errors.verify = '验证码错误1';
+                            this.verifyCode();
+                        }
+                    })
                 }
 
                 if (!this.user.mobile) {
@@ -139,26 +147,31 @@
                     this.errors.location = '请填写城市';
                 }
 
-                // 已注册验证
+                // 用户名、邮箱、手机号已注册验证
                 this.checkUserName();
                 this.checkEmail();
                 this.checkMobile();
-                console.log(this.errors)
-                // 如果没有错误，则提交表单
-                if (Object.keys(this.errors).length === 0) {
-                    this.register();
-                    this.user = {};
-                    this.confirmPassword = "";
-                }
+                console.log('errors:',this.errors)
+                console.log('errors.length:',Object.keys(this.errors).length)
             },
             checkUserName() {
                 axios.get("http://localhost:8080/news/user/checkUserName",{
                     params:{username:this.user.username}
                 }).then(res => {
+                    console.log("Username:",this.errors)
                     if (res.data >= 1) {
                         this.errors.username = '用户名已被注册';
                     } else {
                         delete this.errors.username;
+                    }
+                    // 如果没有错误，则提交表单
+                    if (Object.keys(this.errors).length === 0) {
+                        this.register();
+                        this.user = {};
+                        this.confirmPassword = "";
+                    } else {
+                        // 刷新验证码
+                        this.verifyCode();
                     }
                 })
             },
@@ -167,6 +180,7 @@
                     params:{email:this.user.email}
                 }).then(res => {
                     if (res.data >= 1) {
+                        console.log("Email:",this.errors)
                         this.errors.email = '邮箱已被注册';
                     } else {
                         delete this.errors.email;
@@ -184,21 +198,24 @@
                     }
                 })
             },
-
             register() {
                 axios.post("http://localhost:8080/news/user/register?code=" + this.code, this.user).then(res => {
                     this.map = res.data
                     if (this.map.state === true) {
+                        alert("注册成功")
                         window.location.href = '/news/login.html'
                     }
                 })
             },
+            verifyCode() {
+                axios.get("http://localhost:8080/news/user/getImage/").then(res => {
+                    console.log("验证码；",res.data)
+                    this.url = res.data;
+                })
+            },
         },
         created() {
-            axios.get("http://localhost:8080/news/user/getImage/").then(res => {
-                console.log("验证码；",res.data)
-                this.url = res.data;
-            })
+            this.verifyCode();
         },
     });
 

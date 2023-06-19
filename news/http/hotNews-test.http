@@ -1,3 +1,7 @@
+GET http://localhost:8080/news/user/login?username=10000&password=1234
+Accept: application/json
+
+###
 GET http://localhost:8080/news/user/checkMobile?mobile=11
 Accept: application/json
 
@@ -24,7 +28,7 @@ GET http://localhost:8080/news/hotNews/getHotNewsAndCommentById?id=1
 Accept: application/json
 
 ###
-GET http://localhost:8080/news/hotNews/search?title=大
+GET http://localhost:8080/news/hotNews/search
 Accept: application/json
 
 ###
