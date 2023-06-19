@@ -1,6 +1,6 @@
 package com.example.Controller;
 
-import com.example.entity.HotNews;
+import com.example.entity2.HotNews;
 import com.example.service.HotNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +24,8 @@ public class HotNewsController {
 
     // 模糊查询查询事件
     @GetMapping("/search")
-    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize) {
-        return hotNewsService.getHotNewsByTitle(title, offset, pageSize);
+    public List<HotNews> getHotNewsByTitle(String title, int offset, int pageSize, String desc) {
+        return hotNewsService.getHotNewsByTitle(title, offset, pageSize,desc);
     }
 
     // 获取联表数据

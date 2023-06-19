@@ -8,14 +8,14 @@
 <!--    <select id="getAll" resultType="com.example.entity.HotNews">-->
 <!--        select id,title,article,numberOfSearches,created_at,updated_at from hot_news-->
 <!--    </select>-->
-    <select id="getHotNewsByTitle" resultType="com.example.entity.HotNews">
+    <select id="getHotNewsByTitle" resultType="com.example.entity2.HotNews">
         select id,title,article,numberOfSearches,created_at,updated_at from hot_news
         where title like CONCAT('%',#{title},'%')
-        ORDER BY numberOfSearches desc
+        ORDER BY numberOfSearches ${desc}
             LIMIT #{pageSize} OFFSET ${(offset-1)*pageSize}
     </select>
 
-    <select id="getHotNewsAndCommentById" resultType="com.example.entity.HotNews">
+    <select id="getHotNewsAndCommentById" resultType="com.example.entity2.HotNews">
         SELECT * FROM
             hot_news
         WHERE
