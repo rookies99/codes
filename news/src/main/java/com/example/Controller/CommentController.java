@@ -1,9 +1,7 @@
 package com.example.Controller;
 
-import com.example.entity.Comment;
-import com.example.entity.HotNews;
+import com.example.entity2.Comment;
 import com.example.service.CommentService;
-import com.example.service.HotNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

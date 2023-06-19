@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.entity.Comment;
+import com.example.entity2.Comment;
 
 import java.util.List;
 

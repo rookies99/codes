@@ -5,13 +5,38 @@
 <mapper namespace="com.example.Dao.CommentDao">
 
 
-    <insert id="addComment" parameterType="com.example.entity.Comment">
-        INSERT INTO comment ( content, hot_news_id, created_at, updated_at)
-        VALUES (#{content}, #{hot_news_id}, now(), now())
+    <insert id="addComment" parameterType="com.example.entity2.Comment">
+        INSERT INTO comment (user_id, content, hot_news_id, created_at, updated_at)
+        VALUES (#{userId},#{content}, #{hotNewsId}, now(), now())
     </insert>
-    <select id="getCommentByhotNewsId" resultType="com.example.entity.Comment">
-        select * from comment
-        where hot_news_id = #{hotNewsId}
+
+    <resultMap id="commentResultMap" type="com.example.entity2.Comment">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id"/>
+        <result property="content" column="content" />
+        <result property="hotNewsId" column="hot_news_id" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+        <association property="user" column="user_id" resultMap="userResultMap"/>
+    </resultMap>
+    <resultMap id="userResultMap" type="com.example.entity2.User">
+        <id property="id" column="id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="username" column="username"/>
+        <result property="gender" column="gender"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="mobile" column="mobile"/>
+        <result property="location" column="location"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+    <select id="getCommentByhotNewsId" resultMap="commentResultMap">
+        SELECT * from comment t1
+                INNER JOIN user t2
+                ON t1.user_id = t2.id
+        where t1.hot_news_id = #{hotNewsId}
     </select>
+
 
 </mapper>
