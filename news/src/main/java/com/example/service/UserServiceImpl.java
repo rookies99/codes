@@ -1,14 +1,13 @@
 package com.example.service;
 
 import com.example.Dao.UserDao;
-import com.example.entity.User;
+import com.example.entity2.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Service
 @Transactional
@@ -39,6 +38,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public Integer checkMobile(String mobile) {
         return userDao.checkMobile(mobile);
+    }
+
+    @Override
+    public User login(String username, String password) {
+        return userDao.login(username,password);
     }
 
 }

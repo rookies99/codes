@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.entity.User;
+import com.example.entity2.User;
 
 public interface UserService {
     Integer register(User user);
@@ -10,4 +10,6 @@ public interface UserService {
     Integer checkEmail(String email);
 
     Integer checkMobile(String mobile);
+
+    User login( String username, String password);
 }

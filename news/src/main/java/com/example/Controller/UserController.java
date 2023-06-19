@@ -1,6 +1,6 @@
 package com.example.Controller;
 
-import com.example.entity.User;
+import com.example.entity2.User;
 import com.example.service.UserService;
 import com.example.utils.VerifyCode;
 import lombok.extern.slf4j.Slf4j;
@@ -26,19 +26,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public Map<String, Object> register(@RequestBody User user, String code, HttpServletRequest request) {
-
-        log.info("用户输入的验证码信息：{}",code);
+    public Map<String, Object> register(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>();
         try {
-            String key = (String) request.getServletContext().getAttribute("code");
-            if (key.equalsIgnoreCase(code)) {
-                userService.register(user);
-                map.put("state", true);
-                map.put("msg", "注册成功");
-            } else {
-                throw new RuntimeException("验证码错误");
-            }
+            userService.register(user);
+            map.put("state", true);
+            map.put("msg", "注册成功");
         } catch (Exception e) {
             e.printStackTrace();
             map.put("state", false);
@@ -48,14 +41,21 @@ public class UserController {
     }
 
 
+    @GetMapping("verifyCode")
+    public boolean verifyCode(String code, HttpServletRequest request) {
+        String key = (String) request.getServletContext().getAttribute("code");
+        return key.equalsIgnoreCase(code);
+    }
+
     /**
      * 生成验证码图片
      */
     @GetMapping("getImage")
     public String getImageCode(HttpServletRequest request) throws IOException {
         // 1.使用工具类生成验证码
-        VerifyCode vc = new VerifyCode(120, 40, 4, 100);
+        VerifyCode vc = new VerifyCode(120, 40, 4, 200);
         String code = vc.getCode();
+        log.info("code："+code);
 
         // 2. 获取验证码的BufferedImage对象
         BufferedImage captchaImage = vc.getBuffImg();
@@ -85,5 +85,11 @@ public class UserController {
     @GetMapping("checkMobile")
     public Integer checkMobile(String mobile) {
         return userService.checkMobile(mobile);
+    }
+
+
+    @GetMapping("login")
+    public User login(String username, String password) {
+        return userService.login(username, password);
     }
 }

@@ -23,3 +23,25 @@ tr:nth-child(even) {
     background-color: yellow;
     font-weight: bold;
 }
+
+/* 在你的CSS文件中添加以下样式 */
+
+#events-table th a {
+    text-decoration: none;
+    color: #999;
+    margin-left: 5px;
+}
+
+#events-table th a.active {
+    color: red;
+}
+
+#events-table th a:hover {
+    color: #555;
+}
+
+#events-table th a.active::after {
+    content: '';
+    display: inline-block;
+    margin-left: 3px;
+}

@@ -13,7 +13,8 @@
     <h2>评论</h2>
     <ul ref="comments">
         <li v-for="comment in comments" :key="comment.id">
-            <p>日期：{{ comment.created_at }}</p>
+            <p>用户：{{ comment.user.nickname }}</p>
+            <p>日期：{{ comment.createdAt }}</p>
             <p>{{ comment.content }}</p>
         </li>
     </ul>
@@ -32,25 +33,39 @@
     const app = Vue.createApp({
         data() {
             return {
-                id:"",
+                hotNewsId:"",
+                userId: "",
                 hotNews: [],
-                comments:[],
-                newComment: '',
+                comments:{},
+                newComment: "",
+                nickname: "",
+
             };
         },
         methods: {
             submitComment() {
-                console.log(this.newComment,this.id)
+                // 如果没有登录 则不能评论
+                if (!this.userId) {
+                    alert("请登录后在进行评论。")
+                    window.location.href = '/login.html';
+                }
+                console.log(this.newComment,this.hotNewsId,this.userId);
                 axios.put("http://localhost:8080/news/comment/addComment", {
-                    hot_news_id:this.id,content: this.newComment,
+                    hotNewsId:this.hotNewsId,content: this.newComment,userId:this.userId
                 }).then((res) => {
-                    const newComment = {
-                        created_at: new Date().toLocaleString(),
-                        content: this.newComment
+                    if (res.data>=1) {
+                        const newComment = {
+                            createdAt: new Date().toLocaleString(),
+                            content: this.newComment,
+                            user:{nickname:this.nickname},
+                        };
+                        this.comments.push(newComment);
+                        console.log(this.comments)
+                        this.newComment = '';
                     }
-                    this.comments.push(newComment);
-                    console.log(this.comments)
-                    this.newComment = '';
+                }).catch(error => {
+                    // 请求发生错误，显示错误消息
+                    console.error("评论请求发生错误",error);
                 });
             },
             goToHomePage() {
@@ -60,12 +75,14 @@
         created() {
             // 获取id
             const searchParams = new URLSearchParams(window.location.search);
-            this.id = searchParams.get('id');
-            console.log(this.id)
+            this.hotNewsId = searchParams.get('hotNewsId');
+            this.userId = searchParams.get("userId");
+            this.nickname = searchParams.get("nickname");
+            console.log(this.hotNewsId)
             // 获取热点内容  | hotNews
             axios.get("http://localhost:8080/news/hotNews/getHotNewsAndCommentById",{
                 params: {
-                    id:this.id
+                    id:this.hotNewsId
                 }
             }).then((res) => {
                 this.hotNews = res.data[0];
@@ -74,7 +91,7 @@
             // 获取评论区  | comment
             axios.get("http://localhost:8080/news/comment/getCommentByhotNewsId",{
                 params: {
-                    hotNewsId:this.id
+                    hotNewsId:this.hotNewsId
                 }
             }).then((res) => {
                 this.comments = res.data;
@@ -82,7 +99,6 @@
             });
         },
     });
-
     app.mount('#app');
 </script>
 
