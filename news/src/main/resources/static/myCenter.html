@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="css/myCenter.css">
+</head>
+<body>
+<div id="app">
+    <h1>个人中心</h1>
+    <div>
+        <label for="nickname">昵称:</label>
+        <input type="text" id="nickname" v-model="nickname" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="username">用户名:</label>
+        <input type="text" id="username" v-model="username" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="gender">性别:</label>
+        <input type="text" id="gender" v-model="gender" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="password">密码:</label>
+        <input type="password" id="password" v-model="password" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="email">邮箱:</label>
+        <input type="email" id="email" v-model="email" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="mobile">手机:</label>
+        <input type="tel" id="mobile" v-model="mobile" :disabled="!isEditing">
+    </div>
+    <div>
+        <label for="location">地址:</label>
+        <input type="text" id="location" v-model="location" :disabled="!isEditing">
+    </div>
+    <button @click="edit" v-if="!isEditing">编辑</button>
+    <button @click="save" v-if="isEditing">保存</button>
+</div>
+
+<script src="js/vue.global.js"></script>
+<script src="js/axios.min.js"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                nickname: '',
+                username: '',
+                gender: '',
+                password: '',
+                email: '',
+                mobile: '',
+                location: ' ',
+                isEditing: false
+            };
+        },
+        methods: {
+            edit() {
+                this.isEditing = true;
+            },
+            save() {
+
+                this.isEditing = false;
+            }
+        },
+        created:{
+
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
