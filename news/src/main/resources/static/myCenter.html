@@ -8,34 +8,56 @@
 <body>
 <div id="app">
     <h1>个人中心</h1>
-    <div>
+    <div class="form-group">
         <label for="nickname">昵称:</label>
-        <input type="text" id="nickname" v-model="nickname" :disabled="!isEditing">
+        <input type="text" id="nickname" v-model="user.nickname" :disabled="!isEditing">
+        <div v-if="errors.nickname" class="error-message">{{ errors.nickname }}</div>
     </div>
-    <div>
+    <div class="form-group">
         <label for="username">用户名:</label>
-        <input type="text" id="username" v-model="username" :disabled="!isEditing">
+        <input type="text" id="username" v-model="user.username" :disabled="!isEditing">
+        <div v-if="errors.username" class="error-message">{{ errors.username }}</div>
     </div>
-    <div>
+    <div class="form-group">
         <label for="gender">性别:</label>
-        <input type="text" id="gender" v-model="gender" :disabled="!isEditing">
+        <div id="gender">
+            <label>
+                <input type="radio" id="male" value="男" v-model="user.gender" :disabled="!isEditing" name="gender"> 男
+            </label>
+            <label>
+                <input type="radio" id="female" value="女" v-model="user.gender" :disabled="!isEditing" name="gender"> 女
+            </label>
+        </div>
+        <div v-if="errors.gender" class="error-message">{{ errors.gender }}</div>
     </div>
-    <div>
+    <div class="form-group">
         <label for="password">密码:</label>
-        <input type="password" id="password" v-model="password" :disabled="!isEditing">
+        <input type="password" id="password" v-model="user.password" :disabled="!isEditing">
+        <div v-if="errors.password" class="error-message">{{ errors.password }}</div>
     </div>
-    <div>
+
+    <div class="form-group" v-if="isEditing">
+        <label for="confirm-password">确认密码</label>
+        <input type="password" id="confirm-password" v-model="confirmPassword"  required>
+        <div v-if="errors.confirmPassword" class="error-message">{{ errors.confirmPassword }}</div>
+    </div>
+
+    <div class="form-group">
         <label for="email">邮箱:</label>
-        <input type="email" id="email" v-model="email" :disabled="!isEditing">
+        <input type="email" id="email" v-model="user.email" :disabled="!isEditing">
+        <div v-if="errors.email" class="error-message">{{ errors.email }}</div>
     </div>
-    <div>
+    <div class="form-group">
         <label for="mobile">手机:</label>
-        <input type="tel" id="mobile" v-model="mobile" :disabled="!isEditing">
+        <input type="tel" id="mobile" v-model="user.mobile" :disabled="!isEditing">
+        <div v-if="errors.mobile" class="error-message">{{ errors.mobile }}</div>
     </div>
-    <div>
-        <label for="location">地址:</label>
-        <input type="text" id="location" v-model="location" :disabled="!isEditing">
+    <div class="form-group">
+        <label for="location">城市:</label>
+        <input type="text" id="location" v-model="user.location" :disabled="!isEditing">
+        <div v-if="errors.location" class="error-message">{{ errors.location }}</div>
     </div>
+    <div v-if="successMessage" class="form-group success-message">{{ successMessage }}</div>
     <button @click="edit" v-if="!isEditing">编辑</button>
     <button @click="save" v-if="isEditing">保存</button>
 </div>
@@ -46,14 +68,12 @@
     const app = Vue.createApp({
         data() {
             return {
-                nickname: '',
-                username: '',
-                gender: '',
-                password: '',
-                email: '',
-                mobile: '',
-                location: ' ',
-                isEditing: false
+                user:{},
+                isEditing: false,
+                errors: {},
+                successMessage: '',
+                confirmPassword: '',
+                originUser:{},
             };
         },
         methods: {
@@ -61,12 +81,129 @@
                 this.isEditing = true;
             },
             save() {
+                // 重置错误和成功消息
+                this.errors = {};
+                this.successMessage = '';
 
-                this.isEditing = false;
-            }
+                // 进行表单验证
+                if (!this.user.username) {
+                    this.errors.username = '请填写用户名';
+                }
+                if (!this.user.nickname) {
+                    this.errors.nickname = '请填写昵称';
+                }
+
+                if (!this.user.email) {
+                    this.errors.email = '请填写邮箱';
+                }
+                if (!this.user.gender) {
+                    this.errors.gender = '请选择性别';
+                }
+
+                if (!this.user.password) {
+                    this.errors.password = '请填写密码';
+                }
+
+                if (!this.confirmPassword) {
+                    this.errors.confirmPassword = '请确认密码';
+                } else if (this.confirmPassword !== this.user.password) {
+                    this.errors.confirmPassword = '两次输入的密码不一致';
+                }
+
+                if (!this.user.mobile) {
+                    this.errors.mobile = '请填写手机号';
+                } else if (!/^\d{11}$/.test(this.user.mobile)) {
+                    this.errors.mobile = '无效的电话号码';
+                }
+
+                if (!this.user.location) {
+                    this.errors.location = '请填写城市';
+                }
+
+                if (!this.confirmPassword) {
+                    this.errors.confirmPassword = '请确认密码';
+                } else if (this.confirmPassword !== this.user.password) {
+                    this.errors.confirmPassword = '两次输入的密码不一致';
+                }
+
+                // 用户名、邮箱、手机号已注册验证
+                if (Object.keys(this.errors).length === 0) {
+                    this.checkUserName();
+                    this.checkEmail();
+                    this.checkMobile();
+                    console.log('errors:', this.errors)
+                    console.log('errors.length:', Object.keys(this.errors).length)
+                }
+            },
+            checkUserName() {
+                axios.get("http://localhost:8080/news/user/checkUserName",{
+                    params:{username:this.user.username}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        this.errors.username = '用户名已被注册';
+                    } else {
+                        delete this.errors.username;
+                    }
+                    console.log("Username:",this.errors)
+                    // 如果没有错误，则提交修改
+                    if (Object.keys(this.errors).length === 0) {
+                        if (this.hasChange()) {
+                            axios.post("http://localhost:8080/news/user/updateUser", this.user).then((res) => {
+                                console.log("修改结果:",res.data.state);
+                                this.successMessage = '保存成功'
+                                this.isEditing = false;
+                            }).catch((err) => {
+                                console.log(err)
+                                this.successMessage = "保存失败"
+                            });
+                        }
+                        this.successMessage = '保存成功'
+                        this.isEditing = false;
+                    }
+                })
+            },
+            hasChange(){
+                for (let key in this.user) {
+                    if (this.user[key] !== this.originUser[key]) {
+                        console.log("user",this.user[key])
+                        console.log("originUser",this.originUser[key])
+                        return true;
+                    }
+                }
+                return false;
+            },
+            checkEmail() {
+                axios.get("http://localhost:8080/news/user/checkEmail",{
+                    params:{email:this.user.email}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        console.log("Email:",this.errors)
+                        this.errors.email = '邮箱已被注册';
+                    } else {
+                        delete this.errors.email;
+                    }
+                })
+            },
+            checkMobile() {
+                axios.get("http://localhost:8080/news/user/checkMobile",{
+                    params:{mobile:this.user.mobile}
+                }).then(res => {
+                    if (res.data >= 1) {
+                        this.errors.mobile = '手机号已被注册';
+                    } else {
+                        delete this.errors.mobile;
+                    }
+                })
+            },
         },
-        created:{
-
+        created(){
+            // 获取个人信息 并填入
+            axios.get("http://localhost:8080/news/user/getUser").then((res)=>{
+                this.user = res.data;
+                this.originUser = {...this.user}
+                this.confirmPassword = this.user.password
+                console.log("user:",this.user);
+            })
         }
     }).mount('#app');
 </script>

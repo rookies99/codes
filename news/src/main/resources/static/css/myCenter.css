@@ -19,10 +19,14 @@ h1 {
     margin-bottom: 20px;
 }
 
-div {
-    margin-bottom: 15px;
-}
 
+.form-group {
+    /*border: 1px solid blue;*/
+    margin-bottom:20px;
+    display: flex;
+    align-items: normal;
+    justify-content: left;
+}
 label {
     display: inline-block;
     width: 100px;
@@ -56,4 +60,16 @@ button:hover {
 button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+.error-message {
+    /*border: 1px solid red;*/
+    color: red;
+    margin-bottom: 20px;
+    position: absolute;
+    left:64%;
+}
+
+ .success-message {
+    color: green;
+    margin-top: 5px;
 }
