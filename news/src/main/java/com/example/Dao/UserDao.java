@@ -8,11 +8,14 @@ import org.apache.ibatis.annotations.Param;
 public interface UserDao {
     Integer register(User user);
 
-    Integer checkUserName(String username);
+    Integer checkUserName(@Param("username") String username,@Param("id") String  id);
 
-    Integer checkEmail(String email);
+    Integer checkEmail(@Param("email") String email,@Param("id") String  id);
 
-    Integer checkMobile(String mobile);
+    Integer checkMobile(@Param("mobile") String mobile,@Param("id") String  id);
+    
+    Integer updateUser(User user);
 
     User login(@Param("username") String username, @Param("password") String password);
+
 }

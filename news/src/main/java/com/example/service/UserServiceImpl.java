@@ -26,23 +26,28 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Integer checkUserName(String username) {
-        return userDao.checkUserName(username);
+    public Integer checkUserName(String username,String id) {
+        return userDao.checkUserName(username,id);
     }
 
     @Override
-    public Integer checkEmail(String email) {
-        return userDao.checkEmail(email);
+    public Integer checkEmail(String email,String id) {
+        return userDao.checkEmail(email,id);
     }
 
     @Override
-    public Integer checkMobile(String mobile) {
-        return userDao.checkMobile(mobile);
+    public Integer checkMobile(String mobile,String id) {
+        return userDao.checkMobile(mobile,id);
     }
 
     @Override
     public User login(String username, String password) {
         return userDao.login(username,password);
+    }
+
+    @Override
+    public Integer updateUser(User user) {
+        return userDao.updateUser(user);
     }
 
 }
