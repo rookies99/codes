@@ -8,14 +8,18 @@
         INSERT INTO user (nickname, username, gender, password, email, mobile, location, created_at, updated_at)
         VALUES (#{nickname}, #{username}, #{gender}, #{password}, #{email}, #{mobile}, #{location}, now(), now())
     </insert>
+    <update id="updateUser" parameterType="com.example.entity2.User">
+        UPDATE user SET nickname=#{nickname}, gender=#{gender}, password=#{password}, email=#{email}, mobile=#{mobile}, location=#{location}, updated_at=now() WHERE id=#{id}
+    </update>
+
     <select id="checkUserName" resultType="java.lang.Integer">
-        select count(1) from user where username = #{username}
+        select count(1) from user where username = #{username} and id not in (#{id})
     </select>
     <select id="checkEmail" resultType="java.lang.Integer">
-        select count(1) from user where email = #{email}
+        select count(1) from user where email = #{email} and id not in (#{id})
     </select>
     <select id="checkMobile" resultType="java.lang.Integer">
-        select count(1) from user where mobile = #{mobile}
+        select count(1) from user where mobile = #{mobile} and id not in (#{id})
     </select>
     <select id="login" resultType="com.example.entity2.User">
         select * from user where username = #{username} and password = #{password}
