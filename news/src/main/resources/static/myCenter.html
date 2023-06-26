@@ -190,9 +190,11 @@
                 }).then(res => {
                     if (res.data >= 1) {
                         this.errors.mobile = '手机号已被注册';
+                        console.log("errors.mobile",this.errors)
                     } else {
                         delete this.errors.mobile;
                     }
+
                 })
             },
         },
