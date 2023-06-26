@@ -68,7 +68,7 @@
             <label for="code">验证码</label>
             <img :src="url" alt="验证码">
             <input type="text" id="code" v-model="code" required>
-            <div v-if="errors.code" class="error-message">{{ errors.code }}</div>
+            <div v-if="errors.verify" class="error-message">{{ errors.verify }}</div>
         </div>
         <div v-if="successMessage" class="form-group success-message">{{ successMessage }}</div>
 
@@ -119,6 +119,7 @@
                     this.errors.password = '请填写密码';
                 }
 
+
                 if (!this.confirmPassword) {
                     this.errors.confirmPassword = '请确认密码';
                 } else if (this.confirmPassword !== this.user.password) {
@@ -130,7 +131,7 @@
                 } else {
                     let verify =  axios.get("http://localhost:8080/news/user/verifyCode", {params: {code: this.code}});
                     verify.then(res=>{
-                        console.log(res)
+                        console.log("验证码：",res.data)
                         if (!res.data) {
                             this.errors.verify = '验证码错误1';
                             this.verifyCode();
@@ -158,12 +159,13 @@
                 axios.get("http://localhost:8080/news/user/checkUserName",{
                     params:{username:this.user.username}
                 }).then(res => {
-                    console.log("Username:",this.errors)
+
                     if (res.data >= 1) {
                         this.errors.username = '用户名已被注册';
                     } else {
                         delete this.errors.username;
                     }
+                    console.log("Username:",this.errors)
                     // 如果没有错误，则提交表单
                     if (Object.keys(this.errors).length === 0) {
                         this.register();
@@ -201,6 +203,7 @@
             register() {
                 axios.post("http://localhost:8080/news/user/register?code=" + this.code, this.user).then(res => {
                     this.map = res.data
+                    console.log("res.data:",res.data.state)
                     if (this.map.state === true) {
                         alert("注册成功")
                         window.location.href = '/news/login.html'
