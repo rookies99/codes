@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门06</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <h1>年龄：{{count}}</h1>
+    <button v-on:click="incrmentAge">点我每次给年龄+1</button>
+    <!-- 指定事件并给事件传递参数-->
+    <button v-on:click="changeAge(33)">点我每次给年龄+不确定</button>
+    <button v-on:click="changeAgeAndMsg(2,'i am xiaohei')">点我每次给年龄+不确定，同时msg+"不确定"</button>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            msg: "hello vue",
+            count: 0,
+
+        },
+        methods: {
+            incrmentAge: function () {
+                this.count++;
+            },
+            changeAge: function (count) {
+                this.count += count;
+            },
+            changeAgeAndMsg:function (count,msg){
+                this.count += count;
+                this.msg = "hello vue" + msg;
+            }
+        }
+    })
+</script>

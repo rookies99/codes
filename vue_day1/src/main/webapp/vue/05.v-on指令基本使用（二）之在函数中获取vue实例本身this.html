@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门05</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 双向绑定机制 MVVM Model ==> ViewModel(监听器) ==>View(视图)-->
+        <button v-on:click="test" v-on:mouseover="test1">点我</button>
+        <h1>{{count}}</h1>
+    </div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            msg: "hello vue",
+            count: 23,
+
+        },
+        methods:{
+            test: function () {
+                // 如果在vue定义方法中获取data的数据  使用this可以获取，this代表当前vue示例
+                this.count++;
+                console.log(this);
+                this.aa()
+            },
+            test1: function () {
+                console.log("test mouseover")
+            },
+            aa:function (){
+                console.log("aaa");
+            }
+        }
+    })
+</script>

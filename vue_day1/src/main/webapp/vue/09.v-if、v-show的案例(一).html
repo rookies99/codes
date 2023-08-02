@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门08</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <button @click='hidden'>用来隐藏h2标签</button>
+    <button @click='show'>用来显示h2标签</button>
+    <button @click='showHide'>切换h2标签</button>
+    <button @click='isShow=!isShow'>切换h2标签（直接操作data属性）</button>
+    <h2 v-show="isShow">{{msg}}</h2>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app", // 代表vue的实例作用范围
+        data: {     // 用来给vue实例绑定数据
+            msg: "hello vue",
+            isShow: true,
+
+        },
+        methods: { // 用来给vue实例定义方法
+            show() {
+                this.isShow = true;
+            },
+            hidden() {
+                this.isShow = false;
+            },
+            showHide(){
+                this.isShow =  !this.isShow
+            }
+        }
+    })
+</script>
