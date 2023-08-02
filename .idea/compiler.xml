@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="news" />
-        <module name="codes" />
+        <module name="vue_day1" />
         <module name="ems_vue" />
       </profile>
     </annotationProcessing>
