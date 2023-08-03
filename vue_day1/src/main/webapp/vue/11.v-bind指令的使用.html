@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门11</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <!--
+        v-bind: 绑定  作用：用来将html标签的某个属性交给vue实例进行管理
+                      好处：一旦属性交给vue实例进行管理之后，日后可以通过修改vue实例中绑定属性达到动态修改标签属性的效果
+                      语法：对应标签上  v-bind:属性名
+    -->
+    <img v-bind:width="width" v-bind:height="height" v-bind:src="src" alt="">
+    <button @click="update">修改为奥特曼</button>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app", // 代表vue的实例作用范围
+        data: {     // 用来给vue实例绑定数据
+            msg: "hello vue",
+            isShow: true,
+            src:"https://img1.baidu.com/it/u=1602670310,3511154107&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1691168400&t=11096b66edd18042355025f968e0c20d",
+            width: "300",
+            height: "200",
+        },
+        methods: { // 用来给vue实例定义方法
+            update(){
+                this.src = "https://img0.baidu.com/it/u=1214124441,3721042668&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750";
+                this.width = 150
+            }
+        }
+    })
+</script>

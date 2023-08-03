@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门13</title>
+    <style>
+        .aa {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+        }
+        .bb {
+            width: 200px;
+            height: 200px;
+            border: 10px salmon dashed;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <!--
+        v-bind:绑定 作用：将html标签某个属性绑定给vue实例进行管理
+        简化写法  ： 语法:  :属性名="属性值"
+    -->
+    <div :class="cls" @mouseover="cls='bb'"></div>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app", // 代表vue的实例作用范围
+        data: {     // 用来给vue实例绑定数据
+            msg: "hello vue",
+            cls:"aa"
+        },
+        methods: { // 用来给vue实例定义方法
+
+        }
+    })
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门12</title>
+    <style>
+        .aa {
+            width: 200px;
+            height: 200px;
+            border: 1px red solid;
+        }
+        .bb {
+            width: 200px;
+            height: 200px;
+            border: 10px green dashed;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <!--
+        v-bind: 用来将html标签属性绑定vue实例，日后通过修改vue实例中属性以达到动态修改属性的效果
+    -->
+    <div v-bind:class="cls?'aa':'bb'"></div>
+    <button @click="changeClsAA">修改样式为AA</button>
+    <button @click="changeClsBB">修改样式为BB</button>
+    <br>
+    <img src="1.jpg" width="150" v-bind:alt="message">
+
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app", // 代表vue的实例作用范围
+        data: {     // 用来给vue实例绑定数据
+            msg: "hello vue",
+            cls: "bb",
+            message:"我应该显示ATM"
+
+        },
+        methods: { // 用来给vue实例定义方法
+            changeClsAA() {
+                this.cls = true
+            },
+
+            changeClsBB(){
+                this.cls=false
+            }
+        }
+    })
+</script>

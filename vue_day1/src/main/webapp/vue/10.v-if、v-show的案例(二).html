@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门10</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{msg}}</h1>
+    <div style="width: 200px;height: 200px;background: red" @mouseover="mouseover" v-show="isShow">
+
+    </div>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app", // 代表vue的实例作用范围
+        data: {     // 用来给vue实例绑定数据
+            msg: "hello vue",
+            isShow: true,
+
+        },
+        methods: { // 用来给vue实例定义方法
+            mouseover(){
+                this.isShow=!this.isShow;
+            }
+        }
+    })
+</script>
