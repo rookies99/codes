@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue系列课程_day2-02</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <table border="1" width="50%">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>购买数量</th>
+                <th>小计</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>iphone8</td>
+                <td>19.8</td>
+                <td><input type="button" value="+">1<input type="button" value="-"></td>
+                <td>19.9</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>iphone10</td>
+                <td>2</td>
+                <td><input type="button" value="+">1<input type="button" value="-"></td>
+                <td>19.9</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data:{
+            msg:""
+        }
+    })
+</script>
