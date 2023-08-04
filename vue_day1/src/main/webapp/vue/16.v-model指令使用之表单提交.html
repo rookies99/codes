@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vue-基础入门15</title>
-    </style>
+    <title>vue-基础入门16</title>
 </head>
 <body>
 <div id="app">
     <h1>{{msg}}</h1>
     <form action="">
-        用户名：<input type="text" v-model="username"><br>
-        密码：<input type="text" v-model="password"><br>
-        邮箱：<input type="text" v-model="email"><br>
-        qq：<input type="text" v-model="qq"><br>
-        验证：<input type="text" v-model="code"><br>
-        <button @click="reg">注册</button>
+        用户名：<input type="text" v-model="user.username"><br>
+        密码：<input type="text" v-model="user.password"><br>
+        邮箱：<input type="text" v-model="user.email"><br>
+        qq：<input type="text" v-model="user.qq"><br>
+        验证：<input type="text" v-model="user.code"><br>
+        <button @click="reg" type="button">注册</button>
     </form>
 </div>
 </body>
@@ -25,20 +24,12 @@
         el: "#app", // 代表vue的实例作用范围
         data: {     // 用来给vue实例绑定数据
             msg: "hello vue",
-            username: '',
-            password: '',
-            email: '',
-            qq: '',
-            code: '',
+            user:{}
         },
         methods: { // 用来给vue实例定义方法
-            reg(){
+            reg() {
                 //1.获取form数据
-                console.log(this.username)
-                console.log(this.password)
-                console.log(this.email)
-                console.log(this.qq)
-                console.log(this.code)
+                console.log(this.user)
                 //2.发送ajax请求
             }
         }

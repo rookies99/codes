@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-基础入门17-备忘录案例</title>
+
+</head>
+<body>
+<div id="app">
+    请输入内容：<input v-model="msg" type="text"><button @click="add(msg)">添加到备忘录</button>
+    <br>
+    <ul v-for="item,index in memos" v-if="memos.length!=0">
+        <li>{{index+1}}.{{item}} <a href="javascript:;" @click="remove(index)">删除</a></li>
+    </ul>
+    <ul v-if="memos.length==0">
+        <li><span style="color:red">当前备忘录中还没有任何数据！！</li>
+    </ul>
+    <a v-show="memos.length!=0" href="javascript:;" @click="memos=[]">清空备忘录</a>
+    <h3 id="pos">当前备忘录共：{{memos.length}}条</h3>
+</div>
+</body>
+</html>
+<script src="js/vue2.js"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            msg: "",
+            memos:[
+                "今天晚上吃好吃的",
+                "今天晚上一起打游戏",
+                "今天晚上一起学习"
+            ]
+        },
+        methods:{
+            add(msg) {
+                if (!this.msg) {
+                    return;
+                }
+                this.memos.push(msg);
+                this.msg = ''
+            },
+            remove(index) {
+                // this.memos.splice(index, 1);
+                console.log(index)
+            }
+        }
+    })
+</script>

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="news" />
         <module name="vue_day1" />
+        <module name="vue_day2" />
         <module name="ems_vue" />
       </profile>
     </annotationProcessing>
